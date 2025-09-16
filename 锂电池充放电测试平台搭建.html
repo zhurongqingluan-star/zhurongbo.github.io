@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>锂电池充放电测试平台搭建 | 课程项目</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #42a5f5;
+            --accent-color: #ff7043;
+            --light-bg: #f5f7f9;
+            --dark-text: #333;
+            --light-text: #fff;
+            --card-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+            padding: 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #1a2530);
+            color: var(--light-text);
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 0 0 15px 15px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            color: #e0e0e0;
+        }
+        
+        .project-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .meta-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 8px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .meta-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .meta-item h3 {
+            margin-bottom: 8px;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .meta-item p {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            padding: 0 20px;
+        }
+        
+        @media (min-width: 992px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .project-overview, .technical-details {
+                grid-column: 1 / -1;
+            }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e8e8e8;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h2 i {
+            margin-right: 12px;
+            color: var(--secondary-color);
+        }
+        
+        .overview-content, .objectives-content, .methodology-content, .results-content, .tech-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .objective-item, .method-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+        
+        .objective-icon, .method-icon {
+            background: var(--secondary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.3rem;
+        }
+        
+        .method-icon {
+            background: var(--accent-color);
+        }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .tech-item {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .tech-item:hover {
+            background: #e8f0f8;
+        }
+        
+        .tech-item i {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        .tech-item h3 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .result-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .result-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, var(--secondary-color), #1e88e5);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .result-card:hover {
+            transform: scale(1.03);
+        }
+        
+        .result-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .result-card p {
+            opacity: 0.9;
+        }
+        
+        .visualization {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .visualization img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .caption {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+        }
+        
+        .privacy-note {
+            text-align: center;
+            margin: 40px 20px;
+            padding: 25px;
+            background: #e8e8e8;
+            border-radius: 10px;
+            font-style: italic;
+            box-shadow: var(--card-shadow);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: #7f8c8d;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .highlight {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>锂电池充放电测试平台搭建</h1>
+            <p class="subtitle">基于Arduino与Python的电池性能测试与分析系统</p>
+            
+            <div class="project-meta">
+                <div class="meta-item">
+                    <h3>项目性质</h3>
+                    <p>课程项目</p>
+                </div>
+                <div class="meta-item">
+                    <h3>项目周期</h3>
+                    <p>2024.09 - 2024.12</p>
+                </div>
+                <div class="meta-item">
+                    <h3>项目角色</h3>
+                    <p>核心开发成员</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="card project-overview">
+            <h2><i class="fas fa-info-circle"></i> 项目概述</h2>
+            <div class="overview-content">
+                <p>本项目旨在设计并搭建一个小型锂电池测试平台，用于系统性地评估锂电池在不同工况下的性能表现。通过模拟真实使用场景中的充放电条件，收集电压、电流和温度数据，为锂电池性能分析和优化提供数据支持。</p>
+                
+                <p>随着便携式电子设备和电动汽车的普及，锂电池的性能与安全性评估变得愈发重要。本平台提供了可编程的测试环境，能够模拟多种负载条件，并实时监测电池的关键参数，为锂电池研究提供了实用的实验工具。</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-bullseye"></i> 项目目标</h2>
+            <div class="objectives-content">
+                <div class="objective-item">
+                    <div class="objective-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div>
+                        <h3>硬件平台搭建</h3>
+                        <p>构建完整的锂电池测试系统，包括电子负载、数据采集模块和温度监测单元，确保系统稳定可靠。</p>
+                    </div>
+                </div>
+                
+                <div class="objective-item">
+                    <div class="objective-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div>
+                        <h3>软件开发</h3>
+                        <p>基于Arduino开发数据采集固件，使用Python编写数据分析和可视化脚本，实现自动化测试流程。</p>
+                    </div>
+                </div>
+                
+                <div class="objective-item">
+                    <div class="objective-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h3>数据分析</h3>
+                        <p>系统评估锂电池在不同放电速率和环境条件下的性能表现，识别电池特性与衰减模式。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-tasks"></i> 实施方法</h2>
+            <div class="methodology-content">
+                <div class="method-item">
+                    <div class="method-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div>
+                        <h3>硬件系统搭建</h3>
+                        <p>采用可编程电子负载模拟不同放电工况，使用高精度万用表采集电压和电流数据，集成DS18B20温度传感器监测电池温度变化。所有硬件通过Arduino Mega微控制器进行协调控制。</p>
+                    </div>
+                </div>
+                
+                <div class="method-item">
+                    <div class="method-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div>
+                        <h3>数据采集模块开发</h3>
+                        <p>基于Arduino IDE开发数据采集固件，实现多通道传感器数据同步采集，通过串口通信将数据实时传输到上位机。采样率最高可达10Hz，确保数据准确性。</p>
+                    </div>
+                </div>
+                
+                <div class="method-item">
+                    <div class="method-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div>
+                        <h3>数据分析与可视化</h3>
+                        <p>使用Python编写数据处理脚本，利用Pandas进行数据整理和分析，Matplotlib和Seaborn库生成专业图表，包括电压-时间曲线、容量衰减分析和热特性评估。</p>
+                    </div>
+                </div>
+                
+                <div class="method-item">
+                    <div class="method-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div>
+                        <h3>测试流程标准化</h3>
+                        <p>设计系统化的测试流程，包括不同放电速率(0.2C, 0.5C, 1C)测试、循环寿命测试和温度特性测试，确保实验结果的可重复性和可比性。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card technical-details">
+            <h2><i class="fas fa-cogs"></i> 技术栈</h2>
+            <div class="tech-content">
+                <p>本项目结合了硬件设计、嵌入式开发和数据分析多个技术领域，主要技术组成如下：</p>
+                
+                <div class="tech-stack">
+                    <div class="tech-item">
+                        <i class="fas fa-microchip"></i>
+                        <h3>硬件平台</h3>
+                        <p>Arduino Mega 2560, 可编程电子负载, 高精度万用表, DS18B20温度传感器</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <i class="fas fa-code"></i>
+                        <h3>嵌入式开发</h3>
+                        <p>C/C++ (Arduino), 串口通信, 多传感器数据采集, 定时中断处理</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <i class="fab fa-python"></i>
+                        <h3>数据分析</h3>
+                        <p>Python, Pandas, NumPy, 数据清洗, 统计分析</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <i class="fas fa-chart-area"></i>
+                        <h3>数据可视化</h3>
+                        <p>Matplotlib, Seaborn, 交互式图表, 专业报告生成</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-trophy"></i> 项目成果</h2>
+            <div class="results-content">
+                <p>经过三个月的系统开发与测试，项目取得了以下成果：</p>
+                
+                <div class="result-cards">
+                    <div class="result-card">
+                        <h3>完整测试平台</h3>
+                        <p>成功搭建可编程锂电池测试系统，支持多种测试模式与数据采集功能</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3>自动化流程</h3>
+                        <p>实现从数据采集到分析报告的全自动化流程，大幅提高测试效率</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3>性能评估</h3>
+                        <p>系统评估了三种不同品牌18650锂电池的性能差异，发现容量偏差最高达<span class="highlight">18%</span></p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3>温度特性分析</h3>
+                        <p>发现高倍率放电时电池温度上升显著，1C放电时温度可达<span class="highlight">47°C</span></p>
+                    </div>
+                </div>
+                
+                <div class="visualization">
+                    <img src="https://via.placeholder.com/800x400/42a5f5/ffffff?text=电池性能数据分析图表" alt="电池性能数据分析可视化">
+                    <p class="caption">图：锂电池在不同放电速率下的电压-时间曲线与温度变化关系</p>
+                </div>
+                
+                <p>项目最终输出了一份详尽的测试报告，包括电池性能对比分析、温度特性评估和使用建议，为后续课程实验提供了可靠的数据支持和方法参考。</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="privacy-note">
+        <p><i class="fas fa-info-circle"></i> 注：因项目涉及课程细节和特定设备配置，完整代码与硬件设计资料存储于校内服务器。如有进一步了解需求，可联系获取项目报告摘要。</p>
+    </div>
+    
+    <footer>
+        <p>© 2024 锂电池测试平台项目 | 课程项目展示</p>
+        <p>最后更新: 2024年12月15日</p>
+    </footer>
+</body>
+</html>
